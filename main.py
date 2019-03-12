@@ -19,7 +19,11 @@ def setup_seed(seed):
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
     np.random.seed(seed)
+<<<<<<< HEAD
     # torch.backends.cudnn.deterministic = True
+=======
+    torch.backends.cudnn.deterministic = True
+>>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
 
 
 def collate_fn(batch):

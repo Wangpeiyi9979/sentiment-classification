@@ -17,10 +17,16 @@ class Config():
 
     max_len = 50
     model = 'TextCNN'
+<<<<<<< HEAD
     enc_method = 'rnn'     # cnn/rnn/gru/lstm
     emb_method = 'glove'  # elmo/glove/elmo_glove
     att_method = 'Hdot'    # Hdot/Tdot1/Tdot2/Cat
     use_mask = True
+=======
+    enc_method = 'lstm'     # cnn/rnn/gru/lstm
+    emb_method = 'glove'  # elmo/glove/elmo_glove
+    att_method = 'Hdot'    # Hdot/Tdot1/Tdot2/Cat
+>>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
 
     filters_num = 100
     filters = [3, 4, 5]
@@ -31,11 +37,19 @@ class Config():
     q_num = 1
     q_dim = 100
 
+<<<<<<< HEAD
     seed = 200
     use_gpu = True
     gpu_id = 0
     dropout = 0.5
     epochs = 10
+=======
+    seed =100
+    use_gpu = True
+    gpu_id = 0
+    dropout = 0.5
+    epochs = 50
+>>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
     test_size = 0.1
     lr = 1e-3
     weight_decay = 1e-4

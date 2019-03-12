@@ -2,4 +2,7 @@ __py*
 data/glove/*txt
 data/glove/*npy
 data/elmo/elmo*
+<<<<<<< HEAD
 *.sh
+=======
+>>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
