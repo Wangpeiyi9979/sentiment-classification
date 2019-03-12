@@ -54,11 +54,7 @@ class Attenter(nn.Module):
             nn.init.xavier_normal_(self.H)
             nn.init.uniform_(self.att_bias)
 
-<<<<<<< HEAD
     def sequence_mask(self, sequence_length, max_len=None):
-=======
-    def sequence_mask(sequence_length, max_len=None):
->>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
 
         """
         Accept length vector, and return mask matrix.
@@ -74,11 +70,8 @@ class Attenter(nn.Module):
             seq_length_expand = (sequence_length.unsqueeze(1).expand_as(seq_range_expand))
         return seq_range_expand < seq_length_expand
 
-<<<<<<< HEAD
     def Mask(self, inputs, sqe_len=None):
 =======
-    def Mask(inputs, sqe_len=None):
->>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
         """
         A simper vision mask att_method just for input size (B, L, K)
         refer: https://github.com/bojone/attention/blob/master/attention_tf.py
@@ -89,19 +82,11 @@ class Attenter(nn.Module):
         sqe_len: (B)
 
         """
-<<<<<<< HEAD
         if sqe_len is None:
             return inputs
         mask = self.sequence_mask(sqe_len)  # (B, L)
         mask = mask.unsqueeze(-1)      # (B, L, 1)
         outputs = inputs - (1 - mask).float() * 1e12
-=======
-        if seq_len is None:
-            return inputs
-        mask = sequence_mask(sqe_len)  # (B, L)
-        mask = mask.unsqueeze(-1)      # (B, L, 1)
-        outputs = inputs - (1 - mask) * 1e12
->>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
         return outputs
 
     def forward(self, W, Q, sqe_len=None):
@@ -140,14 +125,8 @@ class Attenter(nn.Module):
             V = torch.cat([W, extend_q], -1)                          # (B, L, f_dim + q_dim)
             A = self.L(V).tanh()                                      # (B, L, K)  tip:K = 1
 
-<<<<<<< HEAD
         if not sqe_len is None:
             A = self.Mask(A, sqe_len)
-=======
-        if sqe_len:
-            A = Mask(A, sqe_len)
->>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
-
         A = F.softmax(A, 1).permute(0,2,1)                            # (B, K, L)
         result = torch.matmul(A, W)                                   # (B, K, f_dim)
 

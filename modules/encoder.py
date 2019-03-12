@@ -28,18 +28,12 @@ class Encoder(nn.Module):
         elif enc_method == 'lstm':
             self.rnn = nn.LSTM(input_size, hidden_size, batch_first=True, bidirectional=bidirectional)
 
-
     def init_model_weight(self):
         for conv in self.convs:
             nn.init.xavier_uniform_(conv.weight)
             nn.init.constant_(conv.bias, 0.0)
 
-
-<<<<<<< HEAD
     def sequence_mask(self, sequence_length, max_len=None):
-=======
-    def sequence_mask(sequence_length, max_len=None):
->>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
         if max_len is None:
             max_len = sequence_length.data.max()
             batch_size = sequence_length.size(0)
@@ -50,32 +44,19 @@ class Encoder(nn.Module):
             seq_length_expand = (sequence_length.unsqueeze(1).expand_as(seq_range_expand))
         return seq_range_expand < seq_length_expand
 
-<<<<<<< HEAD
     def Mask(self, inputs, sqe_len=None):
         if sqe_len is None:
             return inputs
         mask = self.sequence_mask(sqe_len)  # (B, L)
         mask = mask.unsqueeze(-1)      # (B, L, 1)
         outputs = inputs * mask.float()
-=======
-    def Mask(inputs, sqe_len=None):
-        if seq_len is None:
-            return inputs
-        mask = sequence_mask(sqe_len)  # (B, L)
-        mask = mask.unsqueeze(-1)      # (B, L, 1)
-        outputs = inputs * mask
->>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
         return outputs
 
     def forward(self, inputs, lengths=None):
 
         if self.enc_method == 'cnn':
             if not lengths is None:
-<<<<<<< HEAD
                 inputs = self.Mask(inputs, lengths)
-=======
-                inputs = Mask(inputs, lengths)
->>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
             x = inputs.unsqueeze(1)
             x = [conv(x).tanh().squeeze(3) for conv in self.convs]
             x = [F.max_pool1d(i, i.size(2)).squeeze(2) for i in x]    # k * (B, F)
@@ -85,11 +66,7 @@ class Encoder(nn.Module):
             if not lengths is None:
                 sorted_lengths, sorted_indexs = torch.sort(lengths, descending=True)
                 tmp1, desorted_indexs = torch.sort(sorted_indexs, descending=False)
-<<<<<<< HEAD
                 x_rnn = inputs[sorted_indexs]
-=======
-                x_rnn = x_rnn[sorted_indexs]
->>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
                 packed_x_rnn = nn.utils.rnn.pack_padded_sequence(x_rnn, sorted_lengths.cpu().numpy(), batch_first=True)
                 packed_rnn_output, tmp2 = self.rnn(packed_x_rnn)
                 sort_rnn_output, tmp3 = nn.utils.rnn.pad_packed_sequence(packed_rnn_output, batch_first=True)

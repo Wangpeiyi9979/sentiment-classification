@@ -36,12 +36,8 @@
 - fire
 
 ## 如何运行这个例子
-<<<<<<< HEAD
-- 在[百度网盘]()中下载glove词向量`glove_300d.npy`，elmo配置文件`elmo_2x2048_256_2048cnn_1xhighway_options.json`和`elmo_2x2048_256_2048cnn_1xhighway_weights.hdf5`, 单词id映射文件`word2id.npy`。放入上方所示文件目录。
-=======
 - 在[百度网盘](https://pan.baidu.com/s/1fPM-picx20bpAGzkXWdDjQ) 中下载glove词向量`glove_300d.npy`，elmo配置文件`elmo_2x2048_256_2048cnn_1xhighway_options.json`和`elmo_2x2048_256_2048cnn_1xhighway_weights.hdf5`, 单词id映射文件`word2id.npy`。放入上方所示文件目录。
 - 密码:`6av4`
->>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
 
 - 回到主目录, 执行：
 
@@ -205,11 +201,7 @@ x = self.attenter(W, Q, sqe_len)
 ## 实验结果
 ### 测试不同的embedder
 - enc_method:`'cnn'`
-<<<<<<< HEAD
-- att_method:五
-=======
 - att_method:无
->>>>>>> 27cc3e2c0d39f68c237151ea0d0c70841efc25cf
  
 
 |glove|elmo|elmo_glove|
