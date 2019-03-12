@@ -40,9 +40,7 @@ class Attenter(nn.Module):
 
         self.init_weight()
 
-
     def init_weight(self):
-
         if self.att_method == 'Hdot':
             nn.init.xavier_normal_(self.H)
 
@@ -55,7 +53,6 @@ class Attenter(nn.Module):
             nn.init.uniform_(self.att_bias)
 
     def sequence_mask(self, sequence_length, max_len=None):
-
         """
         Accept length vector, and return mask matrix.
         refer:https://github.com/spro/practical-pytorch/blob/master/seq2seq-translation/masked_cross_entropy.py#L5
@@ -71,7 +68,6 @@ class Attenter(nn.Module):
         return seq_range_expand < seq_length_expand
 
     def Mask(self, inputs, sqe_len=None):
-=======
         """
         A simper vision mask att_method just for input size (B, L, K)
         refer: https://github.com/bojone/attention/blob/master/attention_tf.py
