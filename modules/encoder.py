@@ -58,7 +58,7 @@ class Encoder(nn.Module):
             if not lengths is None:
                 inputs = self.Mask(inputs, lengths)
             x = inputs.unsqueeze(1)
-            x = [conv(x).tanh().squeeze(3) for conv in self.convs]
+            x = [conv(x).squeeze(3) for conv in self.convs]
             x = [F.max_pool1d(i, i.size(2)).squeeze(2) for i in x]    # k * (B, F)
             return x
 
