@@ -40,9 +40,7 @@ class Attenter(nn.Module):
 
         self.init_weight()
 
-
     def init_weight(self):
-
         if self.att_method == 'Hdot':
             nn.init.xavier_normal_(self.H)
 
@@ -54,23 +52,22 @@ class Attenter(nn.Module):
             nn.init.xavier_normal_(self.H)
             nn.init.uniform_(self.att_bias)
 
-    def sequence_mask(sequence_length, max_len=None):
-
+    def sequence_mask(self, sequence_length, max_len=None):
         """
         Accept length vector, and return mask matrix.
         refer:https://github.com/spro/practical-pytorch/blob/master/seq2seq-translation/masked_cross_entropy.py#L5
         """
         if max_len is None:
             max_len = sequence_length.data.max()
-            batch_size = sequence_length.size(0)
-            seq_range = torch.LongTensor(range(0,max_len))
-            seq_range_expand = seq_range.unsqueeze(0).expand(batch_size, max_len)
-            if sequence_length.is_cuda:
-                seq_range_expand = seq_range_expand.cuda()
-            seq_length_expand = (sequence_length.unsqueeze(1).expand_as(seq_range_expand))
+        batch_size = sequence_length.size(0)
+        seq_range = torch.LongTensor(range(0, max_len))
+        seq_range_expand = seq_range.unsqueeze(0).expand(batch_size, max_len)
+        if sequence_length.is_cuda:
+            seq_range_expand = seq_range_expand.cuda()
+        seq_length_expand = (sequence_length.unsqueeze(1).expand_as(seq_range_expand))
         return seq_range_expand < seq_length_expand
 
-    def Mask(inputs, sqe_len=None):
+    def Mask(self, inputs, sqe_len=None):
         """
         A simper vision mask att_method just for input size (B, L, K)
         refer: https://github.com/bojone/attention/blob/master/attention_tf.py
@@ -81,11 +78,11 @@ class Attenter(nn.Module):
         sqe_len: (B)
 
         """
-        if seq_len is None:
+        if sqe_len is None:
             return inputs
-        mask = sequence_mask(sqe_len)  # (B, L)
+        mask = self.sequence_mask(sqe_len, input.size(1))  # (B, L)
         mask = mask.unsqueeze(-1)      # (B, L, 1)
-        outputs = inputs - (1 - mask) * 1e12
+        outputs = inputs - (1 - mask).float() * 1e12
         return outputs
 
     def forward(self, W, Q, sqe_len=None):
@@ -124,9 +121,8 @@ class Attenter(nn.Module):
             V = torch.cat([W, extend_q], -1)                          # (B, L, f_dim + q_dim)
             A = self.L(V).tanh()                                      # (B, L, K)  tip:K = 1
 
-        if sqe_len:
-            A = Mask(A, sqe_len)
-
+        if not sqe_len is None:
+            A = self.Mask(A, sqe_len)
         A = F.softmax(A, 1).permute(0,2,1)                            # (B, K, L)
         result = torch.matmul(A, W)                                   # (B, K, f_dim)
 

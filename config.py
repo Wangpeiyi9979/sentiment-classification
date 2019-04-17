@@ -14,12 +14,12 @@ class Config():
                   'elmo_options_file':'./data/elmo/elmo_2x2048_256_2048cnn_1xhighway_options.json',
                   'elmo_weight_file':'./data/elmo/elmo_2x2048_256_2048cnn_1xhighway_weights.hdf5'}
 
-
     max_len = 50
     model = 'TextCNN'
-    enc_method = 'lstm'     # cnn/rnn/gru/lstm
+    enc_method = 'rnn'     # cnn/rnn/gru/lstm
     emb_method = 'glove'  # elmo/glove/elmo_glove
     att_method = 'Hdot'    # Hdot/Tdot1/Tdot2/Cat
+    use_mask = True
 
     filters_num = 100
     filters = [3, 4, 5]
@@ -30,11 +30,11 @@ class Config():
     q_num = 1
     q_dim = 100
 
-    seed =100
+    seed = 200
     use_gpu = True
     gpu_id = 0
     dropout = 0.5
-    epochs = 50
+    epochs = 10
     test_size = 0.1
     lr = 1e-3
     weight_decay = 1e-4

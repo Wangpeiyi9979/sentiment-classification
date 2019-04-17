@@ -29,14 +29,23 @@ class TextCNN(nn.Module):
 
     def forward(self, x):
 
+        length = [len(i) for i in x]
+        length = torch.LongTensor(length)
+        if self.opt.use_gpu:
+            length = length.cuda()
         x = self.embedder(x)
-        x = self.encoder(x)
+        if self.opt.use_mask:
+            x = self.encoder(x, length)
+        else:
+            x = self.encoder(x)
         if self.opt.enc_method == 'cnn':
             x = torch.cat(x, 1)
         else:
-            x = self.attenter(x, self.Q)
+            if self.opt.use_mask:
+                x = self.attenter(x, self.Q, length)
+            else:
+                x = self.attenter(x, self.Q)
             x = x.view(x.size(0), -1)
-
         x = self.dropout(x)
         x = self.linear(x)    # batch_size * num_label
         return x
